@@ -1,0 +1,10 @@
+sys_path: ./
+EnvironmentName: ${environment}
+namespace: ${namespace}
+stacks:
+   - name: sns-topics
+     template_path: cloudformation/topics.yml
+     variables:
+       CustomerName: ${customer}
+       CritPagerDutyWebHook: ${critcpupdwebhook}
+       WarnPagerDutyWebHook: ${warncpupdwebhook}

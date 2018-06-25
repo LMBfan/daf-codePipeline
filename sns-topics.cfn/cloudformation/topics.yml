@@ -1,0 +1,66 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create SNS Topics
+Parameters:
+  CustomerName:
+    AllowedPattern: '[-_a-zA-Z]*'
+    Default: ''
+    Description: >-
+      The nickname for the customer. Must be all lowercase letters, should not
+      contain spaces or special characters, nor should it include any part of
+      EnvironmentName.
+    Type: String
+  EnvironmentName:
+    Default: common
+    Description: Name of Environment
+    Type: String
+  CritPagerDutyWebHook:
+    Description: Pager Duty webhook url for Critical Cloudwatch alarms
+    Type: String
+  WarnPagerDutyWebHook:
+    Description: Pager Duty webhook url for Warning CloudWatch Alarms
+    Type: String
+Resources:
+  CritPagerDutyAlert:
+    Properties:
+      DisplayName:
+        'Fn::Join':
+          - '-'
+          - - Ref: CustomerName
+            - Crit-Issue
+      TopicName: 
+        'Fn::Join':
+          - '-'
+          - - Ref: CustomerName
+            - Crit-notifyPD
+      Subscription:
+        - Endpoint:
+            Ref: CritPagerDutyWebHook
+          Protocol: https
+    Type: 'AWS::SNS::Topic'
+  WarnPagerDutyAlert:
+    Properties:
+      DisplayName:
+        'Fn::Join':
+          - '-'
+          - - Ref: CustomerName
+            - Warn-Issue
+      TopicName: 
+        'Fn::Join':
+          - '-'
+          - - Ref: CustomerName
+            - Warn-notifyPD
+      Subscription:
+        - Endpoint:
+            Ref: WarnPagerDutyWebHook
+          Protocol: https
+    Type: 'AWS::SNS::Topic'
+Outputs:
+  CritNotificationTopicArn:
+    Description: ARN for Critical Alarm Publish
+    Value: 
+      Ref: CritPagerDutyAlert
+  WarnNotificationTopicArn:
+    Description: ARN for Warning Alarm Publish
+    Value: 
+      Ref: WarnPagerDutyAlert

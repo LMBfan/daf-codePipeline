@@ -1,0 +1,28 @@
+namespace: ${namespace}
+stacker_bucket: ${stacker_bucket_name}
+
+sys_path: ./
+package_sources:
+  s3:
+    - bucket: sturdy-platform-releases
+      key: infrastructure/sturdy-platform-infrastructure-1.19.0.tar.gz
+      requester_pays: true
+      use_latest: false
+      paths:
+        - stacker_platform_modules/iam
+
+stacks:
+  bitbucket-platform-policy:
+    class_path: iam_blueprints.platform_policy.PlatformPolicy
+    variables:
+      IamPermissions: core
+  bitbucket-user:
+    class_path: bitbucket_blueprints.user.User
+    variables:
+      # Enable TF statement management via the state stack's managed policy (if
+      # applicable)
+      # ManagedPolicies: "${output bitbucket-platform-policy::PolicyArn},\
+      #                   ${rxref core-tf-state::PolicyArn}"
+      ManagedPolicies: ${output bitbucket-platform-policy::PolicyArn}
+      CustomerName: ${customer}
+      EnvironmentName: ${environment}

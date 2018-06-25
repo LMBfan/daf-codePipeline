@@ -1,0 +1,8 @@
+---
+# See full syntax at https://github.com/onicagroup/runway
+
+deployments:
+  - modules:
+      - sns-topics.cfn
+    regions:
+      - us-west-2
