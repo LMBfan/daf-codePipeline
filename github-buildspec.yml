@@ -38,15 +38,14 @@ phases:
 
     build:
       commands: 
-          - "echo $AWS_ACCESS_KEY_ID"
-          - "echo $BITBUCKET_BRANCH"
-          - "if [ -z \"$AWS_ACCESS_KEY_ID\" ]; then \
-               echo \"AWS credentials not found; skipping deployment...\"; \
-             fi"
-             #elif [ -z \"$BITBUCKET_BRANCH\" ]; then \
-             #  echo \"Current branch not found; skipping deployment...\"; \
-             #elif [[ \"$BITBUCKET_BRANCH\" != ENV-* ]] && [[ \"$BITBUCKET_BRANCH\" != master ]]; then \
-             #  echo \"Current branch does not appear to be a valid environment; skipping deployment...\"; \
-             #else \
-             #  make deploy; \
-             #fi"
+          - runway deploy
+          #- "if [ -z \"$AWS_ACCESS_KEY_ID\" ]; then \
+          #     echo \"AWS credentials not found; skipping deployment...\"; \
+          #   fi"
+          #   elif [ -z \"$BITBUCKET_BRANCH\" ]; then \
+          #     echo \"Current branch not found; skipping deployment...\"; \
+          #   elif [[ \"$BITBUCKET_BRANCH\" != ENV-* ]] && [[ \"$BITBUCKET_BRANCH\" != master ]]; then \
+          #  echo \"Current branch does not appear to be a valid environment; skipping deployment...\"; \
+          #   else \
+          #  make deploy; \
+          # fi"
