@@ -1,0 +1,17 @@
+namespace: ${namespace}
+stacker_bucket: ${stacker_bucket_name}
+
+sys_path: ./
+package_sources:
+  # git:
+  #   - uri: git@bitbucket.org:nbdev/sturdy-platform-infrastructure.git
+  #     tag: vX.X.X
+  s3:
+    - bucket: sturdy-platform-releases
+      key: infrastructure/sturdy-platform-infrastructure-1.17.0.tar.gz
+      requester_pays: true
+      use_latest: false
+      paths:
+        - stacker_platform_modules/core
+      configs:
+        - stacker_platform_modules/core/core.yaml
