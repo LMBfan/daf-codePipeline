@@ -5,7 +5,7 @@
 version: 0.1
 
 phases:
-    pre-build:
+    pre_build:
       commands:
           - "which curl > /dev/null && \
              which pip > /dev/null || \
