@@ -1,10 +1,12 @@
-image: onica/bitbucket-pipelines-aws:latest
+#image used in the bitbucket builds, I suspect it won't work for AWS builds like this since
+#  AWS CodeBuild requires a separate definition of build image
+#image: onica/bitbucket-pipelines-aws:latest
 
-pipelines:
-  default:
-    - step:
-        deployment: production # Note: This setting limits concurrent builds. Runway will take care of the enviromnments. 
-        script:
+version: 0.1
+
+phases:
+    pre-build:
+      commands:
           - "which curl > /dev/null && \
              which pip > /dev/null || \
              (apt-get update && apt-get -y install curl python-pip)"
@@ -33,7 +35,9 @@ pipelines:
           #      cp -p /tmp/terraformtmp/terraform /usr/local/bin/; \
           #      rm -r /tmp/terraformtmp;
           #    fi"
-          - make test
+
+    build:
+      commands: 
           - "if [ -z \"$AWS_ACCESS_KEY_ID\" ]; then \
                echo \"AWS credentials not found; skipping deployment...\"; \
              elif [ -z \"$BITBUCKET_BRANCH\" ]; then \
