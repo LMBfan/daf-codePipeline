@@ -38,6 +38,8 @@ phases:
 
     build:
       commands: 
+          - "echo $AWS_ACCESS_KEY_ID"
+          - "echo $BITBUCKET_BRANCH"
           - "if [ -z \"$AWS_ACCESS_KEY_ID\" ]; then \
                echo \"AWS credentials not found; skipping deployment...\"; \
              fi"
